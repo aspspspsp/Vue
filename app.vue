@@ -2,10 +2,7 @@
   <div>
     <NuxtLayout>
       <NuxtLoadingIndicator />
-      <NuxtPage transition="{
-        name: 'bounce',
-        mode: 'out-in'
-      }" />
+      <NuxtPage />
     </NuxtLayout>
     <NotificationContainer />
   </div>
