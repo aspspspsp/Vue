@@ -121,10 +121,12 @@
 
 <script setup>
 import { googleTokenLogin } from 'vue3-google-login'
+import { useUserStore } from '@/stores/user'
 
 const { push: pushNotify } = useNotification()
 const runtimeConfig = useRuntimeConfig()
 const { googleClientId: GOOGLE_CLIENT_ID } = runtimeConfig.public
+const userStore = useUserStore()
 
 const registerData = reactive({
   nickname: '',
@@ -156,12 +158,8 @@ const handleGoogleLogin = async () => {
     return '登入失敗'
   }
 
-  const { data, error } = await useFetch('/api/auth/google', {
-    method: 'POST',
-    body: {
-      accessToken
-    },
-    initialCache: false
+  const { data, error } = await userStore.googleLogin({
+    accessToken
   })
 
   if (data.value) {
@@ -171,4 +169,11 @@ const handleGoogleLogin = async () => {
     pushNotify('error', '登入失敗', error.value?.data?.message ?? '未知錯誤')
   }
 }
+
+definePageMeta({
+  layout: 'green',
+  layoutTransition: {
+    name: 'slide-in'
+  }
+})
 </script>
